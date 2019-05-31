@@ -1,6 +1,6 @@
 # my-first-nuxt-app
 
-> My marvelous Nuxt.js project
+ダウンロードしたら、.envファイルを作製すること
 
 ## Build Setup
 

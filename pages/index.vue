@@ -22,17 +22,21 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex';
+
 export default {
-  // 非同期用の data 関数の拡張機能
-  async asyncData({ app }) {
-    const items = await app.$axios.$get(
-      'https://qiita.com/api/v2/items?query=tag:nuxt.js'
-    )
-    return {
-      items
+  async asyncData({ store }) {
+    if (store.getters['items'].length) {
+      return;
     }
+    // API経由でデータをVuexへ保存
+    await store.dispatch('fetchItems');
+  },
+  computed: {
+    // 算出プロパティでVuexを監視
+    ...mapGetters(['items'])
   }
-}
+};
 </script>
 
 <style>

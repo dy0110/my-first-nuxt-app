@@ -28,6 +28,8 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
+
 export default {
   // ページごとにタイトルを設定する
   head() {
@@ -37,17 +39,25 @@ export default {
   },
   // Vueのコンポーネントが精製される前に非同期が実行されるためThisによる参照ができない
   // 引数に必要なオブジェクトを渡す。
-  async asyncData({ route, app }) {
-    const user = await app.$axios.$get(
-      `https://qiita.com/api/v2/users/${route.params.id}`
-    )
-    const items = await app.$axios.$get(
-      `https://qiita.com/api/v2/items?query=user:${route.params.id}`
-    )
-    return {
-      user,
-      items
+  async asyncData({ route, store, redirect }) {
+    if (store.getters['users'][route.params.id]) {
+      return
     }
+    try {
+      await store.dispatch('fetchUserInfo',{id: route.params.id})
+    } catch (error) {
+      // 404を想定したリダイレクト
+      redirect('/')
+    }
+  },
+  computed:{
+    user(){
+      return this.users[this.$route.params.id]
+    },
+    items(){
+      return this.userItems[this.$route.params.id] || []
+    },
+    ...mapGetters(['users','userItems'])
   }
 }
 </script>
