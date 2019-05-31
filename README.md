@@ -1,6 +1,6 @@
 # my-first-nuxt-app
 
-ダウンロードしたら、.envファイルを作製すること
+インストールしたら、.envファイルを作製すること
 
 ## Build Setup
 
