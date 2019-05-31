@@ -1,5 +1,8 @@
 import pkg from './package'
 
+// 環境変数の取り込み
+require('dotenv').config();
+
 export default {
   mode: 'universal',
 
@@ -29,8 +32,12 @@ export default {
   /*
    ** Plugins to load before mounting the App
    */
-  plugins: [],
-
+  plugins: [
+    '~/plugins/axios.js'
+  ],
+  env: {
+    QIITA_TOKEN: process.env.QIITA_TOKEN
+  },
   /*
    ** Nuxt.js modules
    */
